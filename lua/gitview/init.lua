@@ -1,7 +1,5 @@
--- gitview.nvim - Git log viewer for Neovim
--- A simple and fast git viewer for Neovim
--- Author: edo1z
--- License: MIT
+-- gitview/init.lua
+-- Git status viewer for Neovim
 
 local M = {}
 local api = vim.api
@@ -168,19 +166,19 @@ local function setup_status_keymaps(buf, line_data)
   api.nvim_buf_set_keymap(buf, 'n', 'j', ':lua vim.cmd("normal! j")<CR>', opts)
   api.nvim_buf_set_keymap(buf, 'n', 'k', ':lua vim.cmd("normal! k")<CR>', opts)
   api.nvim_buf_set_keymap(buf, 'n', 'h', ':lua vim.cmd("normal! h")<CR>', opts)
-  api.nvim_buf_set_keymap(buf, 'n', 'l', ':lua require("mygit").show_diff_for_current_line()<CR>', opts)
+  api.nvim_buf_set_keymap(buf, 'n', 'l', ':lua require("gitview").show_diff_for_current_line()<CR>', opts)
   
   -- Git操作
-  api.nvim_buf_set_keymap(buf, 'n', 's', ':lua require("mygit").stage_current_file()<CR>', opts)
-  api.nvim_buf_set_keymap(buf, 'n', 'u', ':lua require("mygit").unstage_current_file()<CR>', opts)
-  api.nvim_buf_set_keymap(buf, 'n', 'c', ':lua require("mygit").commit()<CR>', opts)
-  api.nvim_buf_set_keymap(buf, 'n', 'p', ':lua require("mygit").push()<CR>', opts)
-  api.nvim_buf_set_keymap(buf, 'n', 'r', ':lua require("mygit").refresh()<CR>', opts)
-  api.nvim_buf_set_keymap(buf, 'n', 'q', ':lua require("mygit").close()<CR>', opts)
-  api.nvim_buf_set_keymap(buf, 'n', 'x', ':lua require("mygit").discard_changes()<CR>', opts)  -- 変更を破棄
+  api.nvim_buf_set_keymap(buf, 'n', 's', ':lua require("gitview").stage_current_file()<CR>', opts)
+  api.nvim_buf_set_keymap(buf, 'n', 'u', ':lua require("gitview").unstage_current_file()<CR>', opts)
+  api.nvim_buf_set_keymap(buf, 'n', 'c', ':lua require("gitview").commit()<CR>', opts)
+  api.nvim_buf_set_keymap(buf, 'n', 'p', ':lua require("gitview").push()<CR>', opts)
+  api.nvim_buf_set_keymap(buf, 'n', 'r', ':lua require("gitview").refresh()<CR>', opts)
+  api.nvim_buf_set_keymap(buf, 'n', 'q', ':lua require("gitview").close()<CR>', opts)
+  api.nvim_buf_set_keymap(buf, 'n', 'x', ':lua require("gitview").discard_changes()<CR>', opts)  -- 変更を破棄
   
   -- ヘルプ
-  api.nvim_buf_set_keymap(buf, 'n', '?', ':lua require("mygit").show_help()<CR>', opts)
+  api.nvim_buf_set_keymap(buf, 'n', '?', ':lua require("gitview").show_help()<CR>', opts)
 end
 
 -- メイン関数：Git Status UIを開く
@@ -364,7 +362,7 @@ end
 -- ヘルプ表示
 function M.show_help()
   print([[
-MyGit Help:
+GitView Help:
   j/k     - Move up/down
   l       - Show diff for file
   s       - Stage file

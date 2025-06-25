@@ -1,17 +1,23 @@
 # gitview.nvim
 
-A simple and fast git log viewer for Neovim.
+A simple git status and log viewer for Neovim.
 
 ![gitview demo](https://user-images.githubusercontent.com/placeholder.gif)
 
 ## Features
 
+### Git Status View
+- 📁 Interactive git status viewer
+- ✅ Stage/unstage files
+- 🔍 View diffs for modified files
+- 🗑️ Discard changes
+- 💬 Commit and push directly from the viewer
+
+### Git Log View
 - 📊 Interactive git log viewer with graph visualization
-- 📁 File changes preview
-- 🔍 Quick diff view for any commit
-- ⚡ Fast navigation with vim keybindings
-- 🗑️ Discard uncommitted changes (for untracked files)
-- 🔄 Return to previous buffer when closing
+- 🌳 Branch visualization with colors
+- 📁 File changes preview for each commit
+- 🔍 Quick diff view for any file in any commit
 
 ## Requirements
 
@@ -37,9 +43,6 @@ use 'edo1z/gitview.nvim'
 ```lua
 {
   'edo1z/gitview.nvim',
-  config = function()
-    require('gitview').setup()
-  end,
 }
 ```
 
@@ -47,42 +50,61 @@ use 'edo1z/gitview.nvim'
 
 ### Commands
 
-- `:GitView` - Open git log viewer
-- `:GitViewClose` - Close git log viewer
+- `:GitStatus` - Open git status viewer
+- `:GitLog` - Open git log viewer
+- `:GitView` - Open git status viewer (alias)
+- `:GitViewClose` - Close current viewer
 
-### Default Keymapping
+### Default Keymappings
 
-- `<leader>gv` - Toggle git log viewer
+- `gs` - Open git status viewer
+- `gh` - Open git log viewer (git history)
 
-### Keybindings in GitView
+### Keybindings in Git Status View
 
 | Key | Action |
 |-----|--------|
-| `Enter` | Show commit diff |
-| `d` | Show file changes |
-| `q` | Close window (returns to previous buffer) |
-| `x` | Discard changes (for untracked files) |
-| `j/k` | Navigate commits |
-| `gg/G` | Go to first/last commit |
+| `j/k` | Move up/down |
+| `l` | Show diff for current file |
+| `s` | Stage file |
+| `u` | Unstage file |
+| `x` | Discard changes (with confirmation) |
+| `c` | Commit staged changes |
+| `p` | Push commits |
+| `r` | Refresh status |
+| `q` | Quit (returns to previous buffer) |
+| `?` | Show help |
+
+### Keybindings in Git Log View
+
+| Key | Action |
+|-----|--------|
+| `j/k` | Move up/down |
+| `l` | Show commit details |
+| `r` | Refresh log |
+| `q` | Quit |
+| `?` | Show help |
+
+In commit detail view:
+| Key | Action |
+|-----|--------|
+| `j/k` | Move up/down |
+| `l` | Show file diff |
+| `q` | Close detail view |
 
 ## Configuration
 
-```lua
-require('gitview').setup({
-  -- Disable default keymapping
-  no_default_mappings = false,
-  
-  -- Window configuration
-  window = {
-    width = 0.8,  -- 80% of screen width
-    height = 0.8, -- 80% of screen height
-  },
-  
-  -- Custom keymapping
-  keymaps = {
-    toggle = '<leader>gv',
-  },
-})
+To disable default keymappings, add this to your init.vim before loading the plugin:
+
+```vim
+let g:gitview_no_default_mappings = 1
+```
+
+Then you can set your own mappings:
+
+```vim
+nnoremap <leader>gs :GitStatus<CR>
+nnoremap <leader>gl :GitLog<CR>
 ```
 
 ## License
