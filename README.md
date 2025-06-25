@@ -2,7 +2,9 @@
 
 A simple git status and log viewer for Neovim.
 
-![gitview demo](https://user-images.githubusercontent.com/placeholder.gif)
+
+https://github.com/user-attachments/assets/fa002c88-77ba-4f05-b3bd-00bb169946a5
+
 
 ## Features
 
