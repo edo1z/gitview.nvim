@@ -16,5 +16,6 @@ endif
 " コマンド定義
 command! GitStatus lua require('gitview').open()
 command! GitLog lua require('gitview.log').open()
+command! GitBranch lua require('gitview.branch').open()
 command! GitView lua require('gitview').open()
 command! GitViewClose lua require('gitview').close()
