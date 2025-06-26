@@ -21,6 +21,11 @@ https://github.com/user-attachments/assets/fa002c88-77ba-4f05-b3bd-00bb169946a5
 - 📁 File changes preview for each commit
 - 🔍 Quick diff view for any file in any commit
 
+### Git Branch View
+- 🌿 View all branches in a popup window
+- 📍 Shows current branch, local branches, and remote branches
+- 🔗 Includes worktree information
+
 ## Requirements
 
 - Neovim >= 0.7.0
@@ -54,6 +59,7 @@ use 'edo1z/gitview.nvim'
 
 - `:GitStatus` - Open git status viewer
 - `:GitLog` - Open git log viewer
+- `:GitBranch` - Open git branch viewer in a popup
 - `:GitView` - Open git status viewer (alias)
 - `:GitViewClose` - Close current viewer
 
@@ -93,6 +99,13 @@ In commit detail view:
 | `j/k` | Move up/down |
 | `l` | Show file diff |
 | `q` | Close detail view |
+
+### Keybindings in Git Branch View
+
+| Key | Action |
+|-----|--------|
+| `q` | Close popup |
+| `ESC` | Close popup |
 
 ## Configuration
 
