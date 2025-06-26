@@ -9,6 +9,7 @@ local log_buf = nil
 local log_win = nil
 local detail_buf = nil
 local detail_win = nil
+local prev_buf = nil  -- 開く前のバッファを記録
 
 -- Git logを取得（グラフとブランチ情報付き）
 local function get_git_log(limit)
@@ -146,6 +147,9 @@ end
 
 -- メイン関数：Git logを開く
 function M.open()
+  -- 現在のバッファを記録
+  prev_buf = api.nvim_get_current_buf()
+  
   -- 新しいタブで開く
   vim.cmd('tabnew')
   
@@ -243,8 +247,24 @@ end
 
 -- 詳細ウィンドウを閉じる
 function M.close_detail()
+  -- Diffウィンドウがあれば先に閉じる
+  if file_diff_win and api.nvim_win_is_valid(file_diff_win) then
+    api.nvim_win_close(file_diff_win, true)
+    file_diff_win = nil
+  end
+  if file_diff_buf and api.nvim_buf_is_valid(file_diff_buf) then
+    api.nvim_buf_delete(file_diff_buf, {force = true})
+    file_diff_buf = nil
+  end
+  
+  -- 詳細ウィンドウを閉じる
+  if detail_win and api.nvim_win_is_valid(detail_win) then
+    api.nvim_win_close(detail_win, true)
+    detail_win = nil
+  end
   if detail_buf and api.nvim_buf_is_valid(detail_buf) then
     api.nvim_buf_delete(detail_buf, {force = true})
+    detail_buf = nil
   end
 end
 
@@ -275,15 +295,37 @@ end
 
 -- 全て閉じる
 function M.close()
+  -- 先にDiffウィンドウと詳細ウィンドウを閉じる
   M.close_detail()
+  
+  -- 現在のウィンドウを閉じる前に、ウィンドウIDを保存
+  local current_log_win = log_win
+  
+  -- ログバッファを削除
   if log_buf and api.nvim_buf_is_valid(log_buf) then
     api.nvim_buf_delete(log_buf, {force = true})
   end
+  
   -- ウィンドウIDをリセット
   log_win = nil
   detail_win = nil
   file_diff_win = nil
-  vim.cmd('tabclose')
+  
+  -- 現在のウィンドウのみを閉じる
+  if current_log_win and api.nvim_win_is_valid(current_log_win) then
+    -- タブ内の最後のウィンドウでない場合のみ閉じる
+    local win_count = vim.fn.winnr('$')
+    if win_count > 1 then
+      api.nvim_win_close(current_log_win, true)
+    else
+      -- 最後のウィンドウの場合は、前のバッファに切り替える
+      if prev_buf and api.nvim_buf_is_valid(prev_buf) then
+        vim.cmd('buffer ' .. prev_buf)
+      else
+        vim.cmd('enew')
+      end
+    end
+  end
 end
 
 -- ヘルプ
